@@ -9,6 +9,8 @@ doi: https://doi.org/10.1242/jcs.252254
 
 
 Trackosome, is a freely available computational tool to track the centrosomes and reconstruct the nuclear envelope and cellular membranes, based on volumetric live-imaging data. The toolbox runs in MATLAB and provides a graphical user interface for easy and efficient access to the tracking and analysis algorithms. It outputs key metrics describing the spatiotemporal relations between centrosomes, nucleus and cellular membrane. Trackosome can also be used to measure the dynamic fluctuations of the nuclear envelope. Unlike previous algorithms based on circular/elliptical approximations of the nucleus, Trackosome measures membrane movement in a model-free condition, making it viable for irregularly shaped nuclei. Overall, Trackosome is a powerful tool to help unravel new elements in the spatiotemporal dynamics of subcellular structures.
+
+
 For help, please check the demostration videos in the folder: _HowToUse_Demos
 
 
