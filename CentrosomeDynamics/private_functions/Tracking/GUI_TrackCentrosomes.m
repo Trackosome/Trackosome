@@ -360,7 +360,7 @@ centrosome_radius_stacks = ceil(rCentrosome_px*metadata.px2um / z_step);
 
 %% Default Masks Dimensions
 lengthROI_px = ceil(5*rCentrosome_px); 
-lengthROI_stacks = min(metadata.nStacks, ceil(3 * centrosome_radius_stacks)); 
+lengthROI_stacks = min(metadata.nStacks, ceil(5 * centrosome_radius_stacks)); 
 kernelROI_XY = strel('rectangle',[lengthROI_px, lengthROI_px]);
 kernelROI_Zproj = strel('rectangle',[lengthROI_stacks lengthROI_px]); % Region of Interest XZ for frame i+1
 

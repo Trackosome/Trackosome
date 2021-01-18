@@ -6,7 +6,9 @@ function [Img_filt, is_filtered] = Spatial_Filtering_3D_LoG( Img, cs_radius_px, 
 
 [SizeY, SizeX, ~, Nframes] = size( Img );
 
-%% Hardcoded Optimization!
+%% Kernel side
+
+% Hardcoded Optimization!
 % if cs_radius_px > 4
 %    cs_radius_px = cs_radius_px - 2; 
 % end

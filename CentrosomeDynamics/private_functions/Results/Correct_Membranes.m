@@ -175,7 +175,7 @@ set(handles.edit_thresh, 'string', num2str(thresh))
 memb_intens = max(max(img_stack(:,:,z)));
 set(handles.z_slider,'Value', z );
 imagesc(handles.z_slice_axes, img_stack(:,:,z) + memb_intens*memb)
-set(handles.z_slice_axes, 'xtick', [], 'ytick', [])
+set(handles.z_slice_axes, 'xtick', [], 'ytick', [], 'ydir', 'normal')
 axis(handles.z_slice_axes, 'equal')
 
 
@@ -439,7 +439,7 @@ Img = Img/max(Img(:));
 
 memb_intens = max(max(Img(:,:,z,f)));
 imagesc(handles.z_slice_axes, Img(:,:,z,f) + memb_intens*memb),
-set(handles.z_slice_axes, 'xtick', [], 'ytick', [])
+set(handles.z_slice_axes, 'xtick', [], 'ytick', [], 'ydir', 'normal')
 axis(handles.z_slice_axes, 'equal')
 
 type = handles.memb_type;
