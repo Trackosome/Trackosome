@@ -1,19 +1,22 @@
 
 function [Img_NM_BW, Img_CM_BW, centroid, CS_coords_um] = defineReconstInputs(imgs_to_show, CS_coords_um, NM_vars, CM_vars, f)
 %% Define inputs for 3D visualization function
-
+centroid = [nan nan nan];
 if imgs_to_show(1) % Centrosomes
-        
+    
     CS_coords_um.x = CS_coords_um.x(f,:);
     CS_coords_um.y = CS_coords_um.y(f,:);
-    CS_coords_um.z = CS_coords_um.z(f,:);    
-    centroid = NM_vars.metrics.centroid(f, :);
+    CS_coords_um.z = CS_coords_um.z(f,:);
+    try
+        centroid = NM_vars.metrics.centroid(f, :);
+    catch
+    end
 else
     CS_coords_um.x = [nan nan];
     CS_coords_um.y = [nan nan];
     CS_coords_um.z = [nan nan];
-    centroid = [nan nan nan];
 end
+
 
 % Nucleus Memb:
 if imgs_to_show(2) 

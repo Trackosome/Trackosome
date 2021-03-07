@@ -25,7 +25,7 @@ switch true
     % Load Matlab matrix
     case strcmp(ext, '.mat')
         nChannels = 1;
-        S = load(CS_file);
+        S = load(dir_filename);
         Imgs = struct2cell(S);
         [metadata.SizeY, metadata.SizeX, metadata.nStacks, metadata.nFrames] = size(Imgs);
         metadata.frame_step = nan;

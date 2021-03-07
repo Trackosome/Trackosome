@@ -100,15 +100,12 @@ handles.all_buttons = [handles.center_button, handles.fig_CS_traj, handles.fig_r
     handles.CM_show_button, handles.correct_memb_button, handles.right_button, handles.left_button, handles.menu_button];
 
 %% Struct with disabled buttons:
-handles.buttons_off = [];
 if LoadData_vars.with_NM == 0
     handles.buttons_off = [ handles.fig_CS_angles, handles.NM_show_button];
     if LoadData_vars.with_CM == 0
-        handles.buttons_off = [handles.buttons_off, handles.CS_show_button, handles.CM_show_button, ...
+        handles.buttons_off = [handles.buttons_off, handles.CS_show_button, handles.CM_show_button, handles.buttons_off,...
             handles.fig_axis_3D, handles.fig_axis_angles, handles.fig_reconstruction, handles.correct_memb_button];
     end
-elseif LoadData_vars.with_CM == 0
-    handles.buttons_off = [handles.CM_show_button];
 end
 
 

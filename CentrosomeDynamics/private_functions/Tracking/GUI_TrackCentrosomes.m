@@ -875,7 +875,10 @@ if ~coordsFound.Z
 end
 
 if show_msg
-    m = msgbox(['Error in frame ' num2str(f) ': ' msg_coord ' not found for centrosome ' num2str(c) '. Try a larger ROI for this centrosome']);
+    m = msgbox(['Error in frame ' num2str(f) ': ' msg_coord ' not found for centrosome '...
+        num2str(c) '. Try a larger ROI for this centrosome using the tools in section "Correct Centrosome Coordinates":', ...
+        newline newline '1) You can use the "Change ROI" option to increase the ROI for this specific frame.' ...
+        newline newline '2) You can increase the size of all subsequent ROIs in "Settings" and Resume in frame ' num2str(f-1)]);
     waitfor(m)
     tracking_error = 1;
 end

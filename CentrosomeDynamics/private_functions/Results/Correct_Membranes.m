@@ -25,7 +25,7 @@ function varargout = Correct_Membranes(varargin)
 
 % Edit the above text to modify the response to help Correct_Membranes
 
-% Last Modified by GUIDE v2.5 14-Oct-2020 11:26:32
+% Last Modified by GUIDE v2.5 25-Feb-2021 19:49:44
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -64,9 +64,14 @@ set(handles.figure1, 'Name', 'Correct Membranes');
 
 %% Load Data:
 metadata = getappdata(0, 'gui_metadata');
+LoadData_vars = getappdata(0, 'gui_LoadData_vars');
 activatedFrames = getappdata(0, 'gui_track_activatedFrames');
 
-handles.memb_type = 'NM';
+if LoadData_vars.with_NM
+    handles.memb_type = 'NM';
+else
+    handles.memb_type = 'CM';  
+end
 handles.z = round(metadata.nStacks/2);
 
 %% Generate Frame Buttons
@@ -91,7 +96,9 @@ if isempty(threshs)
     threshs.CM = nan(metadata.nFrames, 1);
     
     for f = 1:metadata.nFrames
-        threshs.NM(f) = graythresh(Img_NM(:,:,:,f)); % Auto
+        if ~isempty(Img_NM)
+            threshs.NM(f) = graythresh(Img_NM(:,:,:,f)); % Auto
+        end
         if ~isempty(Img_CM)
             threshs.CM(f) = graythresh(Img_CM(:,:,:,f)); % Auto
         end
@@ -132,10 +139,13 @@ frame = getappdata(0, 'gui_track_currentFrame');
 memb_type = handles.memb_type;
 z = handles.z;
 
-if isempty(Img_CM)
-    to_plot = [0 1 0]; % only NM
-else
-    to_plot = [0 1 1]; % NM and CM
+to_plot = [0 0 0];
+if ~isempty(Img_NM)
+    to_plot(2) = 1; % NM
+end
+
+if ~isempty(Img_CM)
+    to_plot(3) = 1; % CM
 end
 
 
@@ -678,7 +688,26 @@ function CM_select_radio_CreateFcn(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
-Img_CM = getappdata(0, 'gui_Img_CM');
-if isempty(Img_CM)
+LoadData_vars = getappdata(0, 'gui_LoadData_vars');
+if LoadData_vars.with_CM
+    set(hObject, 'enable', 'on')    
+    if ~LoadData_vars.with_NM
+        set(hObject, 'value', 1)
+    end
+else
+    set(hObject, 'enable', 'off')
+end
+
+
+% --- Executes during object creation, after setting all properties.
+function NM_select_radio_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to NM_select_radio (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+LoadData_vars = getappdata(0, 'gui_LoadData_vars');
+if LoadData_vars.with_NM
+    set(hObject, 'enable', 'on')
+    set(hObject, 'value', 1)
+else
     set(hObject, 'enable', 'off')
 end

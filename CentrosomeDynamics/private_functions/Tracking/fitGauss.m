@@ -57,5 +57,5 @@ sigma = fit_obj.c;
 % plot(y), hold on,
 % plot(x,a*exp(-(x - b).^2/(2*c^2)), 'k'),
 % plot(b, y(round(b)), 'k*')
-% 1
+
 

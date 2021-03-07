@@ -351,7 +351,7 @@ function load_CM_button_Callback(hObject, eventdata, handles)
 
 searchPath = getappdata(0, 'searchPath');
 
-[CM_filename, dirname] = uigetfile([searchPath '*.tif;*.tiff;*.mat'],...
+[CM_filename, dirname] = uigetfile([searchPath '*.tif;*.tiff;*.mat;*.nd2'],...
     'Choose a TIFF stack+time file (8bits) with CELLULAR MEMBRANE CHANNEL');
 [~, ~, ext] = fileparts(CM_filename);
 CM_file = [dirname, CM_filename];

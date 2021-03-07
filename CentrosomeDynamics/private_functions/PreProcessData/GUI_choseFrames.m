@@ -335,7 +335,10 @@ firstFrame = str2double(get(handles.firstFrame_ed,'String'));
 
 gui_metadata.nFrames = lastFrame - firstFrame + 1;
 gui_Img_C = gui_Img_C(:,:,:,firstFrame:lastFrame);
+
+if ~isempty(gui_Img_NM)
 gui_Img_NM = gui_Img_NM(:,:,:,firstFrame:lastFrame);
+end
 
 if ~isempty(gui_Img_CM)
     gui_Img_CM = gui_Img_CM(:,:,:,firstFrame:lastFrame);

@@ -39,8 +39,8 @@ for i = 1:3 % Shorten the ROI
     if axis_to_shrink == 1 
         
         [~,x_peak] = max(intProfile_X);        
-        xi_CS = max(1,x_peak-round(rCentrosome_px));
-        xf_CS = min(sizeX,x_peak+round(rCentrosome_px));   
+        xi_CS = max(1,x_peak-ceil(rCentrosome_px));
+        xf_CS = min(sizeX,x_peak+ceil(rCentrosome_px));   
              
         % shrink ROI 3D in XX:
         new_X_mask = zeros(sizeY, sizeX);
@@ -52,8 +52,8 @@ for i = 1:3 % Shorten the ROI
     elseif axis_to_shrink == 2       
         
         [~,y_peak] = max(intProfile_Y);
-        yi_CS = max(1,y_peak-round(rCentrosome_px));
-        yf_CS = min(sizeY,y_peak+round(rCentrosome_px));          
+        yi_CS = max(1,y_peak-ceil(rCentrosome_px));
+        yf_CS = min(sizeY,y_peak+ceil(rCentrosome_px));          
         
         % shrink ROI 3D in YY:
         new_Y_mask = zeros(sizeY, sizeX);
@@ -64,15 +64,18 @@ for i = 1:3 % Shorten the ROI
     else         
         
         [~,z_peak]= max(intProfile_Z);
-        zi_CS = max(1,z_peak-round(rCentrosome_stacks));
-        zf_CS = min(nStacks,z_peak+round(rCentrosome_stacks));        
-        
-        % shrink ROI 3D in ZZ:
-        new_Z_mask = zeros(nStacks, sizeX);
-        new_Z_mask(zi_CS:zf_CS,:) = 1;        
-        
+        zi_CS = max(1,z_peak-ceil(rCentrosome_stacks));
+        zf_CS = min(nStacks,z_peak+ceil(rCentrosome_stacks));        
         perm_ROI = permute(ROI_3D,[3 2 1]);
-        perm_ROI = perm_ROI.*new_Z_mask;
+        
+        intProfile_Z_bin = intProfile_Z > 0;
+        if sum(intProfile_Z_bin(zi_CS:zf_CS)) >= 3      
+            % shrink ROI 3D in ZZ:
+            % you need at least 3 slices to fit a gaussian  
+            new_Z_mask = zeros(nStacks, sizeX);
+            new_Z_mask(zi_CS:zf_CS,:) = 1;     
+            perm_ROI = perm_ROI.*new_Z_mask;
+        end
         ROI_3D = permute(perm_ROI, [3 2 1]);       
         
         ZZ = false;

@@ -17,7 +17,7 @@ green = getappdata(0, 'gui_color_4');
 yellow = getappdata(0, 'gui_color_5');
 red = getappdata(0, 'gui_color_6');
 
-if ~isempty(CS_x_um)    
+if ~isempty(CS_x_um) 
     
     CS_lines = [CS_x_um(1), CS_y_um(1), CS_z_um(1); centroid(1), centroid(2), centroid(3); CS_x_um(2), CS_y_um(2), CS_z_um(2) ];
     plot3( CS_lines(:,1), CS_lines(:,2), CS_lines(:,3), 'color', blue, 'linewidth', 1.5);
