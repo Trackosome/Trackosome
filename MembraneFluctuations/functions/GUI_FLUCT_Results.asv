@@ -742,9 +742,33 @@ if isempty(savePath)
     savePath = get(handles.save_path_box, 'string');
 end
 
-saveFilename = get(handles.filename_box, 'string');
 
+%% Export as .mat format
+saveFilename = get(handles.filename_box, 'string');
 save([savePath saveFilename], 'I', 'metadata', 'settings', 'results', 'filename' )
+
+%% Export to excel
+
+excelFilename = [savePath, saveFilename, '.xlsx'];
+
+% Fluctuations:
+first_line = [convertCharsToStrings(['x = frames;  interval between frames = ' num2str(metadata.frame_step) ' s']); ...
+    convertCharsToStrings(['y = Points across membrane;  distance between points = ' num2str(results.dist_ref_memb_points_um) ' um'])];
+
+xlswrite(excelFilename,  first_line  , 'Raw Fluctuations' , 'A1')
+xlswrite(excelFilename,  results.fluctuations_px , 'Raw Fluctuations' , 'A3')
+
+xlswrite(excelFilename,  first_line  , 'Filtered Fluctuations' , 'A1')
+xlswrite(excelFilename,  results.fluctuations_px_filt, 'Filtered Fluctuations' , 'A3')
+
+% Fourier Transforms:
+headers = {'Spatial_Frequency','Mean_FFT_Raw', 'Mean_FFT_Filt', 'Max_FFT_Raw', 'Max_FFT_Filt'};
+ffts_mat = [results.ffts_um_struct.freqs' results.ffts_um_struct.mean_fft_raw  ... 
+    results.ffts_um_struct.mean_fft_filt results.ffts_um_struct.max_fft_raw results.ffts_um_struct.max_fft_filt];
+T = array2table((ffts_mat), 'VariableNames', headers );
+
+writetable(T, excelFilename , 'Sheet', 'Frequency Domain');
+   
 
 msgbox('Done!')
 
