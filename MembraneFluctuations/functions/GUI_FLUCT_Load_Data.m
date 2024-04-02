@@ -616,7 +616,8 @@ img_filter_width = settings.img_filt_size;
 memb_filter_width = settings.seg_smoothness;
 step = 2;
 
-[memb_coords, centered_I, ~, error_signal] = Segment_Membs(I(:,:,frame), nPoints, img_filter_width, memb_filter_width, step, {masks{frame}});
+[memb_coords, masks_frame, centered_I, ~, error_signal] = Segment_Membs(I(:,:,frame), nPoints, img_filter_width, memb_filter_width, step, {masks{frame}});
+masks{frame} = masks_frame{1};
 
 if ~error_signal
     figure
@@ -626,6 +627,7 @@ if ~error_signal
     colormap('jet')
     axis equal
     title(['Frame: ' num2str(frame)])
+    setappdata(0, 'gui_fluct_masks', masks);
 end
 
 % --- Executes on button press in segment_all.
@@ -646,20 +648,25 @@ step = 2;
 state = getappdata(0, 'gui_fluct_Load_state');
 manage_buttons(handles, 4)
 
-[memb_coords_all, centered_I, centroids, error_signal, stopped] = Segment_Membs(I, nPoints, img_filter_side, memb_smooth_filter, step, masks);
+[memb_coords_all, masks, centered_I, centroids, error_signal, stopped] = Segment_Membs(I, nPoints, img_filter_side, memb_smooth_filter, step, masks);
 
 if ~error_signal && ~stopped
     manage_buttons(handles, 5)
     setappdata(0, 'gui_fluct_results', [])
     setappdata(0, 'gui_fluct_Load_state', 5) % Ready for Next!
+    setappdata(0, 'gui_fluct_centroids', centroids)
+    setappdata(0, 'gui_fluct_masks', masks)
     setappdata(0, 'gui_fluct_memb_coords', memb_coords_all)
     setappdata(0, 'gui_fluct_I', centered_I)
-    setappdata(0, 'gui_fluct_centroids', centroids)
+
     clear_fluct_results
     show_img(centered_I(:,:,frame), handles.img_axes)
 else
+    
     manage_buttons(handles, state)
 end
+
+
 
 % --- Executes during object creation, after setting all properties.
 function segment_all_CreateFcn(hObject, eventdata, handles)

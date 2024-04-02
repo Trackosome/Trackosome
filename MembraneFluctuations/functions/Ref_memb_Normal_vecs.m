@@ -1,4 +1,4 @@
-function [ref_memb, vectors_base_px, normals, Iproj] = Ref_memb_Normal_vecs(I, nPoints, smooth_filter_width)
+function [ref_memb, vectors_base_px, normals, Iproj] = Ref_memb_Normal_vecs(I, masks, nPoints, smooth_filter_width)
 %% Calculate Reference Membrane and Normal vectors
 %
 % Arguments:
@@ -27,7 +27,7 @@ else
     Iproj = I;
 end
     
-ref_memb = calc_reference_membrane(Iproj,step, smooth_filter_width, nPoints, plot_all, plot_end);
+ref_memb = calc_reference_membrane(Iproj, masks, step, smooth_filter_width, nPoints, plot_all, plot_end);
 
 %% Normal Vectors
 [vectors_base_px, normals] = calculate_normals(ref_memb);

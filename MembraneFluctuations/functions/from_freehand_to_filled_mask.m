@@ -22,8 +22,18 @@ for i =  1: length(points) - 1
     x = round(p1(:,1) + line.*cos(theta));
     y = round(p1(:,2) + line.*sin(theta));
     
+    x(x<1) = 1;
+    y(y<1) = 1;
+    
+    x(x>mask_size(2)) = mask_size(2);
+    y(y>mask_size(1)) = mask_size(1);
+    
+    try
     sub_points = sub2ind(mask_size, y, x);
     mask(sub_points) = 1;
+    catch
+    1    
+    end
 end
 
 mask = imfill(mask);

@@ -1,7 +1,8 @@
-function [memb_coords_all, centered_I, centroids, error_signal, stopped] = Segment_Membs(I, nPoints, img_filt_side, memb_filter_width, step, masks)
+function [memb_coords_all, masks, centered_I, centroids, error_signal, stopped] = Segment_Membs(I, nPoints, img_filt_side, memb_filter_width, step, masks)
 
 error_signal = 0;
 stopped = 0;
+f=1;
 
 try
     
@@ -47,6 +48,7 @@ try
         %% Membrane Mask:
         if isempty(masks{f})
             membrane_mask = Calc_Membrane_Mask( I_frame, membrane_mask_pre, 0 );
+            masks{f} = membrane_mask;
         else
             membrane_mask = masks{f};
         end
@@ -78,7 +80,7 @@ try
     catch
     end
     
-catch
+catch err
     error_signal = 1;
     if nFrames>1
         msgbox(['Error segmenting membrane in frame ' num2str(f)]);
@@ -86,3 +88,5 @@ catch
         msgbox('Error segmenting membrane');
     end
 end
+
+

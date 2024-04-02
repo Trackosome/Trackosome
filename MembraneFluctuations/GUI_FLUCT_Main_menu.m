@@ -150,6 +150,12 @@ elseif nFiles == 1
     [searchPath, ~, ~] = fileparts(filename);
     setappdata(0, 'gui_fluct_I', I);
 
+    % double-check nFrames because sometimes metadata is wrong (they store nFrames as nSlices)
+    if metadata.nFrames == 1
+        metadata.nFrames = size(I, 3);
+    end
+        
+    
     if ~isempty(I)        
         setappdata(0, 'gui_fluct_metadata', metadata);
         setappdata(0, 'gui_fluct_masks', cell(metadata.nFrames, 1))

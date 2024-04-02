@@ -1,4 +1,4 @@
-function [results, Iproj, error_signal, warning_frames] = Calc_Ref_Memb_and_Fluct_Results(I, memb_coords, nPoints, smooth_Ref_filter_width, space_filt, time_filt, px2um)
+function [results, Iproj, error_signal, warning_frames] = Calc_Ref_Memb_and_Fluct_Results(I, memb_coords, masks, nPoints, smooth_Ref_filter_width, space_filt, time_filt, px2um)
 %%   Calculates the reference membrane and the fluctuation results
 %
 %   Arguments:
@@ -21,7 +21,7 @@ function [results, Iproj, error_signal, warning_frames] = Calc_Ref_Memb_and_Fluc
 step = 1;
 
 % Reference Membrane and Normal Vectors:
-[~, vectors_base_px, normals, Iproj] = Ref_memb_Normal_vecs(I, nPoints, smooth_Ref_filter_width);
+[~, vectors_base_px, normals, Iproj] = Ref_memb_Normal_vecs(I, masks, nPoints, smooth_Ref_filter_width);
 
 % Fluctuations:
 [fluctuations_px, fluctuations_vectors, error_signal, warning_frames] = from_Membs_to_Fluctuations(memb_coords, normals, ...

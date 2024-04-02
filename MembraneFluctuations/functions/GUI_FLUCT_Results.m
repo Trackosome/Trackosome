@@ -58,6 +58,7 @@ set(hObject,'CloseRequestFcn', @results_closereq)
 
 metadata = getappdata(0, 'gui_fluct_metadata');
 memb_coords = getappdata(0, 'gui_fluct_memb_coords');
+masks = getappdata(0, 'gui_fluct_masks');
 settings = getappdata(0, 'gui_main_fluct_settings');
 I = getappdata(0, 'gui_fluct_I');
 results = getappdata(0, 'gui_fluct_results');
@@ -76,7 +77,7 @@ if isempty(results)
     space_time_filt = settings.space_time_filt;
         
     [results, I_med_proj, ~, warning_frames] = Calc_Ref_Memb_and_Fluct_Results(...
-        I, memb_coords, nPoints, filter_width, space_time_filt(1), space_time_filt(2), metadata.px2um);
+        I, memb_coords, masks, nPoints, filter_width, space_time_filt(1), space_time_filt(2), metadata.px2um);
 
     check_warnings(warning_frames)
     

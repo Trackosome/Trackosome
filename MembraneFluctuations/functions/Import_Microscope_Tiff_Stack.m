@@ -49,7 +49,14 @@ end
 
 SizeX = size(Img,2);
 SizeY = size(Img,1);
-px2um = 1.0 / A(1,1).XResolution; %resolution assumed to be equal in X and Y
+
+if isempty(A(1,1).XResolution)
+    px2um = 1.0; %resolution assumed to be equal in X and Y
+    warndlg(['No Pixel resolution data in image metadata.' ...
+        newline 'We are assuming 1 px/um.' newline 'You can change px/um conversion in Metadata'])
+else
+    px2um = 1.0 / A(1,1).XResolution; %resolution assumed to be equal in X and Y
+end
 
 Img = reshape(Img, SizeY, SizeX, Nstacks, Nframes);
 

@@ -1,11 +1,13 @@
-function ref_memb_px = calc_reference_membrane(Iproj, step, filterWindow, nPoints, plot_all, plot_end)
+function ref_memb_px = calc_reference_membrane(Iproj, masks, step, filterWindow, nPoints, plot_all, plot_end)
 %% Calculates reference membrane 
 
 
 frame_size = size(Iproj);
 
 % % Segmentation:
-membrane_mask = Calc_Membrane_Mask( Iproj, ones(frame_size),plot_all );
+masks_mat = cat(3, masks{:});
+mask = any(masks_mat, 3);
+membrane_mask = Calc_Membrane_Mask( Iproj, mask, plot_all );
 
 %% Extract Coords of Reference Membrane:
 if  plot_all || plot_end
